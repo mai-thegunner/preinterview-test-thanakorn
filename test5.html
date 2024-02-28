@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Geerang Corporation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        var allUrl = [];
+        var currentIndex = -1;
+
+        $(document).ready(function(){
+            $("#ok_btn").click(function(){
+                setInput();
+                setOutput();
+            });
+
+        });
+
+        function setInput(){
+            var newCommandText = $("#command_input").val() + "<br>";
+
+            $("#leftColumn").append(newCommandText);
+        }
+
+        function setOutput(){
+            let commandArray = $("#command_input").val().split(" ");
+            
+            if(commandArray[0] == "input"){
+                while(currentIndex < allUrl.length-1){
+                    console.log("1 allUrl", allUrl);
+                    allUrl.pop();
+                    console.log("2 allUrl", allUrl);
+                }
+                allUrl.push(commandArray[1]);
+                currentIndex+=1;
+            } else if(commandArray[0] == "prev"){
+                if(currentIndex > 0){
+                    currentIndex-=1;
+                } else {
+                    $("#rightColumn").append(`No website to previous<br>`);
+                }
+            } else if(commandArray[0] == "next"){
+                if(currentIndex < allUrl.length-1){
+                    currentIndex+=1;
+                } else {
+                    $("#rightColumn").append(`No website to go<br>`);
+                }
+            } else if(commandArray[0] == "current"){
+                if(currentIndex >= 0){
+                    // console.log("1", currentIndex);
+                    // console.log("2", allUrl);
+                    // console.log("3", allUrl[currentIndex]);
+                    $("#rightColumn").append(`Now you on ${allUrl[currentIndex]}<br>`);
+                }
+            } else if(commandArray[0] == "all"){
+                $("#rightColumn").append(`[${allUrl.join(", ")}]<br>`);
+            }
+        }
+
+        function backHome(){
+            window.location.href = "index.html";
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <button class="btn btn-primary" onclick="backHome()">Back</button>
+
+        <h1 class="mt-5 text-center">ข้อ 5</h1>
+
+        <hr>
+        
+        <label>กรอกคำสั่งแล้วกดตกลง</label>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" id="command_input" name="command_input">
+            <button class="btn btn-primary" type="button" id="ok_btn">ตกลง</button>
+        </div>
+
+        <hr>
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <th class="text-center">Input</th>
+                <th class="text-center">Output</th>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td style="width: 50%" id="leftColumn">
+                        
+                    </td>
+                    <td style="width: 50%" id="rightColumn">
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
